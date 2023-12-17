@@ -1,4 +1,4 @@
-##bfs code/
+<h1>bfs code<h1>
 <p>this code is breadth first search which finds the quickest way out of a maze. It takes in input which is the maze where :</br>
 <ul><li>-the line of input represents the length and width of the maze (first length, then width). </li>
         <li> -'X' are the walls of the maze/borders of the maze.</li>
