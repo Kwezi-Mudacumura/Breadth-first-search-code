@@ -1,0 +1,174 @@
+
+#include<bits/stdc++.h>
+
+//taking in the maze
+Vector<vector<char>> makemaze(int m, int n){
+Vector<vector<char>> maze(m, vector<char>(n));
+Cin.ignore();
+For(int row=0;row<m;row++){
+String input;
+Getline(cin,input);
+For(int col=0;col<n;col++){
+	Maze[row][col]=input[col];
+}
+}
+Return maze;
+}
+
+//finding the start
+Pair<int,int> findstart(vector<vector<char>> &maze){
+	Pair<int,int> coordinates;
+For(int row=0;row<maze.size();row++){
+	For(int col=0;col<maze[row].size();col++){
+		If(maze[row][col]==‘S’){
+			Coordinates.first=row;
+			Coordinates.second=col;
+			Return coordinate;
+}
+}
+}
+}
+
+//finding the goal
+Pair<int,int> findgoal(vector<vector<char>> &maze){
+
+Pair<int,int> coordinates;
+For(int row=0;row<maze.size();row++){
+	For(int col=0;col<maze[row].size();col++){
+		If(maze[row][col]==‘G’){
+			Coordinates.first=row;
+			Coordinates.second=col;
+			Return coordinate;
+}
+}
+}
+
+}
+
+Bool isVisited(vector<vector<pair<int,int>>> parent, pair<int,int> goal){
+Pair<int,int> coordinate;
+For(int i=0; i<parent.size();i++){
+For(int j=0;j<parent[i].size();j++){
+If(parent[i][j]==goal) return true
+}
+}
+Return false;
+}
+
+Bool isValidMove(vector<vector<char>> maze, pair<int,int> coordinate){
+Int i = coordinate.first;
+Int j=coordinate.second;
+
+If(i<0 || i>=maze.size() || j<0 || j>=maze[i].size()) return false;
+
+If(maze[i][j]==‘x’) return false;
+
+Return true;
+}
+
+Vector<pair<int,int>> flipVector (vector<pair<int,int>> path){
+Vector<pair<int,int>> temp;
+For(i=path.size()-1; i>=0;i - -){
+Temp.push_back(path[i]);
+}
+Return temp;
+}
+
+Void printPath(vector<pair<int,int>> path){
+For(int i=0;i<path.size();i++){
+Count<<path[i].first<<“,”<<path[i].second<<endl;
+}
+}
+
+Vector<vector<char>> mazePath(vector<vector<char>> maze, vector<pair<int,int>> path){
+For(int i=1;i<path.size()-1;i++){
+Pair<int,int> coordinate=path[i];
+Int x=coordinate.first;
+Int y=coordinate.second;
+Maze[x][y]=‘*’;
+}
+Return maze;
+}
+
+//printing out the shortest path
+Void printMaze(const vector<vector<char>> maze){
+For(const auto& row : maze){
+	For(const auto& cell : row){
+		Cout<<cell;
+}
+Cout<<endl;
+}
+}
+
+
+Int main(){
+Int m;
+Int n;
+Cin>>m>>n;
+Vector<vector<char>> maze = makemaze(m,n);
+Pair<int,int> source = findstart(maze);
+Pair<int,int> goal = findgoal(maze);
+Queue<pair<int,int>> q;
+Vector<vector<int>> distance(m,vector<int>(n,numeric_limits<int>::max()));
+Distance[source.first][source.second]=0;
+Vector<vector<pair<int,int>>> parent(m,vector<pair<int,int>>(n,make_pair(-2,-2)));
+Q.push(source);
+
+While(!q.empty() && !isVisited(parent,goal)){
+Pair<int,int> curr = q.front();
+Q.pop();
+
+//checking down
+Pair<int,int> down = {curr.first+1,curr.second};
+If(isValidMove(maze,down) && parent[down.first][down.second] == make_pair(-2,-2)){
+Distance[down.first][down.second] = distance[curr.first][curr.second]+1;
+Parent[down.first][down.second]=curr;
+Q.push(down);
+}
+
+//checking left
+
+Pair<int,int> left = {curr.first,curr.second-1};
+If(isValidMove(maze,left) && parent[left.first][left.second] == make_pair(-2,-2)){
+Distance[left.first][left.second] = distance[curr.first][curr.second]+1;
+Parent[left.first][first.second]=curr;
+Q.push(left);
+}
+
+//checking up
+
+Pair<int,int> up = {curr.first-1,curr.second};
+If(isValidMove(maze,up) && parent[up.first][up.second] == make_pair(-2,-2)){
+Distance[up.first][up.second] = distance[curr.first][curr.second]+1;
+Parent[up.first][up.second]=curr;
+Q.push(up);
+}
+
+//checking right
+
+Pair<int,int> right = {curr.first,curr.second+1};
+If(isValidMove(maze,right) && parent[right.first][right.second] == make_pair(-2,-2)){
+Distance[right.first][right.second] = distance[curr.first][curr.second]+1;
+Parent[right.first]right.second]=curr;
+Q.push(right);
+}
+
+If(!isVisited(parent,goal)){
+Cout<<“No Path”<<endl;
+}
+Else{
+Vector<pair<int,int>> maze out;
+Pair<int,int> temp = goal;
+While(temp!=source){
+Mazeout.push_back(temp);
+Temp=parent[temp.first][temp.second];
+}
+Mazeout.push_back(source);
+Mazeout=flipVector(mazeout);
+Maze=mazepath(maze,mazeout);
+Printmaze(maze);
+}
+
+}
+Return 0;
+}
